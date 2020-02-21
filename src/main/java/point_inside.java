@@ -7,6 +7,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class point_inside {
 
@@ -33,7 +38,11 @@ public class point_inside {
             String apiOutput = EntityUtils.toString(httpEntity);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode node = mapper.readTree(apiOutput);
-            System.out.println(node.get("zoneName"));
+
+            Date date = new Date();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            df.setTimeZone(TimeZone.getTimeZone(node.get("abbreviation").asText()));
+            System.out.println(df.format(date));
         }
     }
 }
